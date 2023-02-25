@@ -2,15 +2,15 @@ import "reflect-metadata";
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("movies")
-class Movies {
+class Movie {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
   @Column({ length: 50, unique: true })
   name: string;
 
-  @Column({ nullable: true })
-  description: string;
+  @Column({ type: "text", nullable: true })
+  description?: string | undefined | null;
 
   @Column({ type: "integer" })
   duration: number;
@@ -19,4 +19,4 @@ class Movies {
   price: number;
 }
 
-export { Movies };
+export { Movie };
