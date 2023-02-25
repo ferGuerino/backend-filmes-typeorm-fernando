@@ -12,4 +12,11 @@ type iMovieReturn = z.infer<typeof returnMovieSchema>;
 type iMoviesReturn = z.infer<typeof returnAllMoviesSchema>;
 type iMovieUpdate = DeepPartial<iMovie>;
 
-export { iMovie, iMovieReturn, iMoviesReturn, iMovieUpdate };
+interface iPagination {
+  prevPage: string;
+  nextPage: string;
+  count: number;
+  data: iMoviesReturn;
+}
+
+export { iMovie, iMovieReturn, iMoviesReturn, iMovieUpdate, iPagination };

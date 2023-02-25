@@ -11,11 +11,17 @@ const ensureMovieNameNotRepeat = async (
 ): Promise<void> => {
   const movieRepository: Repository<Movie> = AppDataSource.getRepository(Movie);
 
+  if (!request.body.name) {
+    return next();
+  }
+
   const findMovieName: Movie | null = await movieRepository.findOne({
     where: {
       name: request.body.name,
     },
   });
+
+  console.log(findMovieName);
 
   if (findMovieName) {
     throw new AppError("Movie already exists.", 409);

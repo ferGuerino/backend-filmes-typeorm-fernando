@@ -1,10 +1,10 @@
 import { Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Movie } from "../entities";
-import { iMoviesReturn } from "../interfaces/movies.interfaces";
+import { iMoviesReturn, iPagination } from "../interfaces/movies.interfaces";
 import { returnAllMoviesSchema } from "../schemas/movies.schemas";
 
-const listMoviesServices = async (queryData: any): Promise<iMoviesReturn> => {
+const listMoviesServices = async (queryData: any): Promise<iPagination> => {
   console.log(queryData.page, queryData.perPage, queryData.order);
   const movieRepository: Repository<Movie> = AppDataSource.getRepository(Movie);
 
@@ -42,9 +42,32 @@ const listMoviesServices = async (queryData: any): Promise<iMoviesReturn> => {
     order,
   });
 
+  const countMovies = await movieRepository.findAndCount();
+
   const movies = returnAllMoviesSchema.parse(orderMovies);
 
-  return movies;
+  const baseUrl: string = `http://localhost:3000/movies`;
+
+  let countPage: number = skip;
+  let countPerPage: number = orderMovies.length;
+  let prevPage: string = `${baseUrl}?page=${countPage - 1}&perPage=${take}`;
+  let nextPage: string = `${baseUrl}?page=${countPage + 1}&perPage=${take}`;
+
+  if (countPage === 1 || !countPage) {
+    prevPage = "null";
+  }
+  if (countPerPage === 0 || countPerPage < take) {
+    nextPage = "null";
+  }
+
+  let returnMoviesPage: iPagination = {
+    prevPage: prevPage,
+    nextPage: nextPage,
+    count: countMovies[1],
+    data: movies,
+  };
+
+  return returnMoviesPage;
 };
 
 export default listMoviesServices;
