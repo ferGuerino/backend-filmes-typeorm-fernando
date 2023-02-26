@@ -14,7 +14,7 @@ const listMoviesServices = async (queryData: any): Promise<iPagination> => {
   let getOrder: string = queryData.order;
   let order: Object = {};
 
-  if (!getOrder || (getOrder != "ASC" && getOrder != "DESC")) {
+  if (!getOrder || (getOrder.toUpperCase() != "ASC" && getOrder.toUpperCase() != "DESC")) {
     getOrder = "ASC";
   }
 
@@ -31,10 +31,10 @@ const listMoviesServices = async (queryData: any): Promise<iPagination> => {
   }
 
   if (sort === "price") {
-    order = { price: getOrder };
+    order = { price: getOrder.toUpperCase() };
   }
   if (sort === "duration") {
-    order = { duration: getOrder };
+    order = { duration: getOrder.toUpperCase() };
   }
   const orderMovies: Array<Movie> = await movieRepository.find({
     take,
