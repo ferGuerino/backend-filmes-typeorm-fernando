@@ -50,14 +50,14 @@ const listMoviesServices = async (queryData: any): Promise<iPagination> => {
 
   let countPage: number = skip;
   let countPerPage: number = orderMovies.length;
-  let prevPage: string = `${baseUrl}?page=${countPage - 1}&perPage=${take}`;
-  let nextPage: string = `${baseUrl}?page=${countPage + 1}&perPage=${take}`;
+  let prevPage: string | null = `${baseUrl}?page=${countPage - 1}&perPage=${take}`;
+  let nextPage: string | null = `${baseUrl}?page=${countPage + 1}&perPage=${take}`;
 
   if (countPage === 1 || !countPage) {
-    prevPage = "null";
+    prevPage = null;
   }
   if (countPerPage === 0 || countPerPage < take) {
-    nextPage = "null";
+    nextPage = null;
   }
 
   let returnMoviesPage: iPagination = {

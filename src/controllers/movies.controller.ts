@@ -33,7 +33,7 @@ const updateMovieController = async (request: Request, response: Response) => {
 
   const updatedMovie = await updateMovieServices(movieData, idMovie);
 
-  return response.status(201).json(updatedMovie);
+  return response.status(200).json(updatedMovie);
 };
 
 export { createMovieController, listMoviesController, deleteMovieController, updateMovieController };

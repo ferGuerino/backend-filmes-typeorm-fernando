@@ -13,8 +13,8 @@ type iMoviesReturn = z.infer<typeof returnAllMoviesSchema>;
 type iMovieUpdate = DeepPartial<iMovie>;
 
 interface iPagination {
-  prevPage: string;
-  nextPage: string;
+  prevPage: string | null;
+  nextPage: string | null;
   count: number;
   data: iMoviesReturn;
 }
